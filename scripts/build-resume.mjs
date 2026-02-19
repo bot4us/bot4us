@@ -16,9 +16,10 @@ function run(cmd, opts = {}) {
   execSync(cmd, { cwd: root, stdio: 'inherit', ...opts });
 }
 
-// Toolbar: PDF download (pre-generated or client-side fallback) + language switcher
+// Toolbar: PDF download (pre-generated in pipeline only) + language switcher
 function makeToolbar(langId, pdfName) {
   const btnText = langId === 'ru' ? 'Скачать PDF' : 'Download PDF';
+  const unavailableText = langId === 'ru' ? 'PDF недоступен' : 'PDF unavailable';
   return `
 <div id="resume-toolbar">
   <button type="button" id="pdf-download-btn" class="toolbar-btn" data-pdf="${pdfName}">${btnText}</button>
@@ -40,12 +41,7 @@ function makeToolbar(langId, pdfName) {
       }
       throw new Error('not pdf');
     }).catch(function(){
-      var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';s.onload=function(){
-        var toolbar=document.getElementById('resume-toolbar');var oldDisplay,oldPad;if(toolbar){oldDisplay=toolbar.style.display;toolbar.style.display='none'}oldPad=document.body.style.paddingTop;document.body.style.paddingTop='0';
-        var opt={margin:15,filename:pdfUrl,html2canvas:{scale:2},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
-        html2pdf().set(opt).from(document.body).save().then(function(){if(toolbar)toolbar.style.display=oldDisplay;document.body.style.paddingTop=oldPad;btn.disabled=false;btn.textContent='${btnText}';});
-      };document.head.appendChild(s);
-      btn.disabled=true;btn.textContent='${langId === 'ru' ? 'Генерация…' : 'Generating…'}';
+      btn.disabled=true;btn.textContent='${unavailableText}';
     });
   });
 })();
