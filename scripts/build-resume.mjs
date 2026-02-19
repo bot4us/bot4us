@@ -72,9 +72,13 @@ function patchLightTheme(html) {
     .replace('--color-dimmed-light: #f3f4f5', '--color-dimmed-light: #ffffff');
 }
 
-// Layout patch: page margins for PDF/print, max-width + readability for screen
+// Layout patch: page margins for PDF/print, max-width + readability for screen, full-width content in PDF
 const LAYOUT_CSS = `
-@media print{@page{size:A4;margin:15mm}}
+@media print{
+  @page{size:A4;margin:15mm}
+  body{max-width:none!important;margin:0!important;padding:0!important;width:100%}
+  body{grid-template-columns:[full-start] minmax(0,1fr) [main-start side-start] minmax(min-content,12em) [side-end content-start] minmax(28em,1fr) [main-end content-end] minmax(0,1fr) [full-end]!important}
+}
 @media screen{html{font-size:15px}body{max-width:52rem;margin:0 auto;padding:2rem 1.5rem;line-height:1.6}}
 `;
 
