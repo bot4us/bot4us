@@ -8,6 +8,7 @@ on:
       - 'scripts/**'
       - 'package.json'
       - 'package-lock.json'
+      - '.github/workflows/resume.yml'
 
 jobs:
   build:
@@ -25,6 +26,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Install Chrome for PDF export
+        run: npx puppeteer browsers install chrome
 
       - name: Build resume (HTML + PDF)
         run: npm run build
