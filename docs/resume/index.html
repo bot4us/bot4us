@@ -6,7 +6,7 @@
   <title>Resume — Matvey Sizov</title>
   <script>
     (function () {
-      var lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+      var lang = (navigator.languages && navigator.languages[0] || navigator.language || navigator.userLanguage || '').toLowerCase();
       var isRu = lang.indexOf('ru') === 0;
       var path = isRu ? 'ru' : 'en';
       window.location.replace('./' + path + '/');
