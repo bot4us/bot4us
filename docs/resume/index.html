@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume — Matvey Sizov</title>
+  <script>
+    (function () {
+      var lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+      var isRu = lang.indexOf('ru') === 0;
+      var path = isRu ? 'ru' : 'en';
+      window.location.replace('./' + path + '/');
+    })();
+  </script>
+</head>
+<body>
+  <noscript>
+    <p>Resume (choose language):</p>
+    <ul>
+      <li><a href="./ru/">RU (HTML)</a> — <a href="./ru/Matvey_Sizov_CV.pdf">PDF</a></li>
+      <li><a href="./en/">EN (HTML)</a> — <a href="./en/Matvey_Sizov_CV.pdf">PDF</a></li>
+    </ul>
+  </noscript>
+</body>
+</html>

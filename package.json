@@ -1,0 +1,14 @@
+{
+  "name": "bot4us-resume",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-resume.mjs",
+    "resume:ru": "resumed render resume/resume.ru.json --theme jsonresume-theme-even --output docs/resume/ru/index.html",
+    "resume:en": "resumed render resume/resume.en.json --theme jsonresume-theme-even --output docs/resume/en/index.html"
+  },
+  "devDependencies": {
+    "jsonresume-theme-even": "^0.26.1",
+    "puppeteer": "^24.0.0",
+    "resumed": "^6.1.0"
+  }
+}

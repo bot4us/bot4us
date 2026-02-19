@@ -7,9 +7,7 @@
 - 💻 **Tech Stack:** Java | Python | Golang | Front-end | ...and more!
 - 🏢 **Currently:** Working at [ATOM](https://atom.auto/)
 - 🤝 *Feel free to reach out if you have any relevant opportunities!*
-
----
+- **Preview:** [Resume](https://bot4us.github.io/bot4us/resume/)
 
 ## 📬 Contact
-- 💡 Have great ideas or feeling uncertain about your direction?  
 - 📱 Add me on Telegram: @bot4e

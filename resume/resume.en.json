@@ -1,0 +1,87 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Matvey Sizov",
+    "label": "Backend / IT Engineer",
+    "email": "matvey-sizov@mail.ru",
+    "phone": "+7 (904) 295-13-95",
+    "url": "https://github.com/wtkeqrf0",
+    "summary": "Over two years of commercial development in Golang. Skilled at task decomposition, estimation, and quick onboarding. Understand frontend and data formats. Know information security basics. Goal: building products with modern practices. Open, constructive, responsible.",
+    "profiles": [
+      { "network": "Telegram", "username": "bot4em", "url": "https://t.me/bot4em" },
+      { "network": "GitHub", "username": "wtkeqrf0", "url": "https://github.com/wtkeqrf0" }
+    ]
+  },
+  "work": [
+    {
+      "name": "Sber",
+      "position": "Senior IT Engineer",
+      "location": "Moscow, Russia",
+      "startDate": "2024-01",
+      "endDate": null,
+      "highlights": [
+        "Designed and implemented integration test architecture for the product",
+        "Wrote Helm charts for automated deployment of test environment to the cluster",
+        "Implemented pipeline for automated test runs",
+        "Contributed to Istio customization for Sber's needs",
+        "Developed operator for centralized management of control planes and their data planes"
+      ]
+    },
+    {
+      "name": "AlkorTech",
+      "position": "Backend Developer",
+      "location": "Remote",
+      "startDate": "2023-01",
+      "endDate": "2024-01",
+      "highlights": [
+        "Designed architecture of services for product pricing",
+        "Implemented API for managers and administrators",
+        "Designed and implemented notification services",
+        "Collaborated with analysts, frontend and mobile teams"
+      ]
+    },
+    {
+      "name": "BlackWall",
+      "position": "Backend Developer",
+      "location": "Moscow, Russia",
+      "startDate": "2022-06",
+      "endDate": "2023-01",
+      "highlights": [
+        "Extended user cabinet API",
+        "Wrote and optimized SQL transactions",
+        "Implemented email notification service",
+        "Integrated metrics collection and tracing into services"
+      ]
+    },
+    {
+      "name": "Kaluga Sales Company",
+      "position": "Backend Go Developer",
+      "location": "Remote",
+      "startDate": "2022-02",
+      "endDate": "2022-06",
+      "highlights": [
+        "Built backend on top of 1C-based service",
+        "Developed heating utility user cabinet",
+        "Implemented user notifications via Firebase",
+        "Integrated with bank APIs for payments and arrears"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Voronezh State Technical University",
+      "area": "Computer systems, information technology and programming",
+      "studyType": "Bachelor",
+      "startDate": "2021",
+      "endDate": "2025",
+      "location": "Voronezh"
+    }
+  ],
+  "skills": [
+    { "name": "Programming languages", "keywords": ["Golang", "Java", "Bash", "Groovy"] },
+    { "name": "Databases", "keywords": ["PostgreSQL", "MongoDB", "Redis", "MinIO"] },
+    { "name": "Message brokers", "keywords": ["RabbitMQ", "Kafka", "NATS"] },
+    { "name": "API", "keywords": ["REST", "gRPC", "GraphQL"] },
+    { "name": "Tools", "keywords": ["Linux", "Git", "Docker", "Kubernetes"] }
+  ]
+}
