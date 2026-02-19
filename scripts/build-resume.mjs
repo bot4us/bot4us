@@ -42,7 +42,7 @@ function makeToolbar(langId, pdfName) {
     }).catch(function(){
       var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';s.onload=function(){
         var toolbar=document.getElementById('resume-toolbar');var oldDisplay,oldPad;if(toolbar){oldDisplay=toolbar.style.display;toolbar.style.display='none'}oldPad=document.body.style.paddingTop;document.body.style.paddingTop='0';
-        var opt={margin:10,filename:pdfUrl,html2canvas:{scale:2},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
+        var opt={margin:15,filename:pdfUrl,html2canvas:{scale:2},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
         html2pdf().set(opt).from(document.body).save().then(function(){if(toolbar)toolbar.style.display=oldDisplay;document.body.style.paddingTop=oldPad;btn.disabled=false;btn.textContent='${btnText}';});
       };document.head.appendChild(s);
       btn.disabled=true;btn.textContent='${langId === 'ru' ? 'Генерация…' : 'Generating…'}';
@@ -72,6 +72,12 @@ function patchLightTheme(html) {
     .replace('--color-dimmed-light: #f3f4f5', '--color-dimmed-light: #ffffff');
 }
 
+// Layout patch: page margins for PDF/print, max-width + readability for screen
+const LAYOUT_CSS = `
+@media print{@page{size:A4;margin:15mm}}
+@media screen{html{font-size:15px}body{max-width:52rem;margin:0 auto;padding:2rem 1.5rem;line-height:1.6}}
+`;
+
 // Render HTML, patch for light theme, generate PDF from same source, inject toolbar
 await (async () => {
 for (const { id, json, pdf } of locales) {
@@ -84,6 +90,7 @@ for (const { id, json, pdf } of locales) {
 
   let html = readFileSync(htmlPath, 'utf8');
   html = patchLightTheme(html);
+  html = html.replace('</style>', LAYOUT_CSS + '\n</style>');
   writeFileSync(htmlPath, html);
 
   try {
@@ -95,7 +102,7 @@ for (const { id, json, pdf } of locales) {
       path: pdfPath,
       format: 'A4',
       printBackground: true,
-      margin: { top: '10mm', right: '10mm', bottom: '10mm', left: '10mm' },
+      margin: { top: '15mm', right: '15mm', bottom: '15mm', left: '15mm' },
     });
     await browser.close();
   } catch (e) {
