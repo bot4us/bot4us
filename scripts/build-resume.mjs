@@ -61,22 +61,52 @@ for (const { id } of locales) {
   mkdirSync(join(root, 'docs', 'resume', id), { recursive: true });
 }
 
-// Render HTML and PDF per locale (PDF may fail locally without Chrome; works in CI)
+// Force light theme only: same layout for HTML and PDF, white background
+function patchLightTheme(html) {
+  return html
+    .replace(/color-scheme:light dark/g, 'color-scheme:light')
+    .replace(
+      /@media \(prefers-color-scheme: dark\)\{:root\{[^}]+\}\}/g,
+      '/* dark theme disabled */',
+    )
+    .replace('--color-dimmed-light: #f3f4f5', '--color-dimmed-light: #ffffff');
+}
+
+// Render HTML, patch for light theme, generate PDF from same source, inject toolbar
+await (async () => {
 for (const { id, json, pdf } of locales) {
   const input = join(root, 'resume', json);
   const outDir = join(root, 'docs', 'resume', id);
-  run(`npx resumed render "${input}" -t ${theme} -o "${join(outDir, 'index.html')}"`);
+  const htmlPath = join(outDir, 'index.html');
+  const pdfPath = join(outDir, pdf);
+
+  run(`npx resumed render "${input}" -t ${theme} -o "${htmlPath}"`);
+
+  let html = readFileSync(htmlPath, 'utf8');
+  html = patchLightTheme(html);
+  writeFileSync(htmlPath, html);
+
   try {
-    run(`npx resumed export "${input}" -t ${theme} -o "${join(outDir, pdf)}"`);
+    const puppeteer = await import('puppeteer');
+    const browser = await puppeteer.default.launch();
+    const page = await browser.newPage();
+    await page.setContent(html, { waitUntil: 'networkidle0' });
+    await page.pdf({
+      path: pdfPath,
+      format: 'A4',
+      printBackground: true,
+      margin: { top: '10mm', right: '10mm', bottom: '10mm', left: '10mm' },
+    });
+    await browser.close();
   } catch (e) {
     console.warn(`PDF export failed for ${id} (Chrome/Puppeteer may be unavailable):`, e.message);
   }
-  // Inject toolbar with PDF download + language switcher
-  const htmlPath = join(outDir, 'index.html');
-  let html = readFileSync(htmlPath, 'utf8');
+
+  html = readFileSync(htmlPath, 'utf8');
   html = html.replace('</body>', makeToolbar(id, pdf) + '\n</body>');
   writeFileSync(htmlPath, html);
 }
+})();
 
 // Landing page: robust language detection (navigator.languages preferred, then fallbacks)
 const landing = `<!DOCTYPE html>
