@@ -72,12 +72,40 @@ function patchLightTheme(html) {
     .replace('--color-dimmed-light: #f3f4f5', '--color-dimmed-light: #ffffff');
 }
 
-// Layout patch: page margins for PDF/print, max-width + readability for screen, full-width content in PDF
+// Layout patch: page margins for PDF/print, narrow sidebar + full-width content, visual emphasis
 const LAYOUT_CSS = `
+/* Skills: visible gray boxes for each tag */
+.tag-list{display:flex;flex-wrap:wrap;gap:.35em .5em}
+.tag-list>li{background:#e5e7eb;color:var(--color-primary);border-radius:.2em;padding:.25em .55em;font-size:.9em;list-style:none}
+/* Emphasize key info: summary, companies, positions */
+.masthead article p{border-left:3px solid var(--color-accent);padding-left:1em;font-size:1.05em;line-height:1.55;color:var(--color-primary)}
+.meta strong{font-weight:700;color:var(--color-primary)}
+article header h4{font-weight:600}
+/* Masthead: FIO, title, socials (horizontal when fit), summary — centered */
+.masthead{display:flex;flex-direction:column;align-items:center;text-align:center}
+.masthead>div:first-child{order:1}
+.masthead .icon-list{order:2;flex-direction:row!important;flex-wrap:wrap;justify-content:center;margin:.5em 0}
+.masthead>article{order:3;text-align:left;align-self:stretch}
+/* Print: sidebar wide enough for full text (Work, Education, Skills) */
 @media print{
-  @page{size:A4;margin:15mm}
-  body{max-width:none!important;margin:0!important;padding:0!important;width:100%}
-  body{grid-template-columns:[full-start] minmax(0,1fr) [main-start side-start] minmax(min-content,12em) [side-end content-start] minmax(28em,1fr) [main-end content-end] minmax(0,1fr) [full-end]!important}
+  @page{size:A4;margin:12mm}
+  body{max-width:none!important;margin:0!important;padding:0!important;width:100%;gap:0}
+  body{grid-template-columns:[full-start] 0 [main-start side-start] minmax(6.5em,7em) [side-end content-start] minmax(0,1fr) [main-end content-end] 0 [full-end]!important}
+  body{column-gap:1em}
+  body>*{min-width:0}
+  h3{font-size:var(--scale2)!important;padding-right:.5em;white-space:normal;line-height:1.25;grid-column:side;align-self:start;min-width:0}
+  section{display:contents}
+  section>.stack,section>.grid-list{grid-column:content;margin-top:.5rem;margin-bottom:1rem;min-width:0}
+  section#work .stack,section#education .stack,section#skills .grid-list{border-top:1px solid var(--color-secondary);padding-top:.85rem;margin-top:.75rem}
+  .masthead{padding:2em 0}
+  .stack{gap:1.6rem}
+  .stack>article{margin-bottom:0;padding-bottom:1.25rem}
+  .stack>article:last-child{padding-bottom:0}
+  .timeline>div:not(:last-child){padding-bottom:.6rem}
+  article>*+*,article header+.timeline{margin-top:.5rem}
+  .grid-list{gap:.75rem 1rem}
+  .grid-list>div{margin:0}
+  .tag-list>li{background:#e5e7eb!important;padding:.2em .5em;font-size:.85em}
 }
 @media screen{html{font-size:15px}body{max-width:52rem;margin:0 auto;padding:2rem 1.5rem;line-height:1.6}}
 `;
@@ -94,6 +122,7 @@ for (const { id, json, pdf } of locales) {
 
   let html = readFileSync(htmlPath, 'utf8');
   html = patchLightTheme(html);
+  html = html.replace(/Бакалавр in /g, '').replace(/Bachelor in /g, '');
   html = html.replace('</style>', LAYOUT_CSS + '\n</style>');
   writeFileSync(htmlPath, html);
 
@@ -106,7 +135,7 @@ for (const { id, json, pdf } of locales) {
       path: pdfPath,
       format: 'A4',
       printBackground: true,
-      margin: { top: '15mm', right: '15mm', bottom: '15mm', left: '15mm' },
+      margin: { top: '12mm', right: '12mm', bottom: '12mm', left: '12mm' },
     });
     await browser.close();
   } catch (e) {

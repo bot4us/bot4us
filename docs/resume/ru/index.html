@@ -11,10 +11,38 @@
         <style>
           :root{color-scheme:light;--color-background-light: #ffffff;--color-dimmed-light: #ffffff;--color-primary-light: #191e23;--color-secondary-light: #6c7781;--color-accent-light: #0073aa;--color-background-dark: #191e23;--color-dimmed-dark: #23282d;--color-primary-dark: #fbfbfc;--color-secondary-dark: #ccd0d4;--color-accent-dark: #00a0d2;--color-background: var(--color-background-light);--color-dimmed: var(--color-dimmed-light);--color-primary: var(--color-primary-light);--color-secondary: var(--color-secondary-light);--color-accent: var(--color-accent-light);--scale-ratio: 1.25;--scale0: 1rem;--scale1: calc(var(--scale0) * var(--scale-ratio));--scale2: calc(var(--scale1) * var(--scale-ratio));--scale3: calc(var(--scale2) * var(--scale-ratio));--scale4: calc(var(--scale3) * var(--scale-ratio));--scale5: calc(var(--scale4) * var(--scale-ratio))}/* dark theme disabled */*{box-sizing:border-box;margin:0;padding:0}html{font-size:14px}body{background:var(--color-background);color:var(--color-primary);display:grid;font:1em/1.5 Lato,sans-serif;gap:2em;grid-template-columns:[full-start] 1fr [main-start side-start] minmax(min-content,12em) [side-end content-start] minmax(min-content,36em) [main-end content-end] 1fr [full-end];grid-template-rows:auto [content] 0;margin-bottom:4em}body:before{content:"";grid-column:full;grid-row:content}ol,ul{padding-left:1em}:not(.icon-list,.tag-list)>li+li{margin-top:.4em}li::marker,.network{color:var(--color-secondary)}a{color:var(--color-accent);text-decoration:none}a:focus,a:hover{text-decoration:underline}h1,h2,h3,h5{font-weight:400}h1,h2,h3{line-height:1.2}h1{font-size:var(--scale5)}h2{color:var(--color-secondary);font-size:var(--scale4)}h3{color:var(--color-secondary);font-size:var(--scale3);grid-column:side;margin-bottom:1rem}h4{font-size:var(--scale2)}h5{font-size:var(--scale1)}h6{font-size:var(--scale0)}blockquote{border-left:.2em solid var(--color-dimmed);padding-left:1em}cite{color:var(--color-secondary);font-style:inherit}cite:before{content:"— "}svg{margin-right:.2em;vertical-align:text-bottom}.masthead{background:var(--color-dimmed);display:inherit;gap:inherit;grid-column:full;grid-template-columns:inherit;padding:4em 0;text-align:center}.masthead>*,section{grid-column:main}.masthead>img{border:4px solid;border-radius:50%;margin:0 auto;max-width:12em}article>*+*,blockquote>*+*,.timeline>div>*+*{margin-top:.6em}.meta{color:var(--color-secondary)}.stack{display:grid;gap:1.5em}.icon-list{display:flex;flex-wrap:wrap;gap:.4em 1em;justify-content:center;list-style:none;padding:0}.grid-list{display:grid;gap:1em}.tag-list{display:flex;flex-wrap:wrap;gap:.4em;list-style:none;padding:0}.tag-list>li{background:var(--color-dimmed);border-radius:.2em;padding:.2em .6em}.timeline>div{position:relative}.timeline>div:not(:last-child){padding-bottom:1rem}.timeline>div:not(:last-child):before{content:"";position:absolute;top:1rem;left:-15px;width:2px;height:100%;background:var(--color-secondary)}.timeline>div:not(:only-child):after{content:"";position:absolute;top:.6rem;left:-20px;width:8px;height:8px;background:var(--color-secondary);border:2px solid var(--color-background);border-radius:50%}@media print,(min-width: 48em){h3{text-align:right;margin-bottom:inherit}.masthead{text-align:inherit}.masthead>*,section{grid-column:content}.masthead img{grid-column:side;grid-row:span 2;max-width:100%}section{display:contents}.icon-list{flex-direction:column}.grid-list{grid-template-columns:repeat(auto-fit,minmax(calc((100% - 1em)/2),1fr))}}time+time-duration:before{content:"· "}@media print{time-duration{display:none}}
         
+/* Skills: visible gray boxes for each tag */
+.tag-list{display:flex;flex-wrap:wrap;gap:.35em .5em}
+.tag-list>li{background:#e5e7eb;color:var(--color-primary);border-radius:.2em;padding:.25em .55em;font-size:.9em;list-style:none}
+/* Emphasize key info: summary, companies, positions */
+.masthead article p{border-left:3px solid var(--color-accent);padding-left:1em;font-size:1.05em;line-height:1.55;color:var(--color-primary)}
+.meta strong{font-weight:700;color:var(--color-primary)}
+article header h4{font-weight:600}
+/* Masthead: FIO, title, socials (horizontal when fit), summary — centered */
+.masthead{display:flex;flex-direction:column;align-items:center;text-align:center}
+.masthead>div:first-child{order:1}
+.masthead .icon-list{order:2;flex-direction:row!important;flex-wrap:wrap;justify-content:center;margin:.5em 0}
+.masthead>article{order:3;text-align:left;align-self:stretch}
+/* Print: sidebar wide enough for full text (Work, Education, Skills) */
 @media print{
-  @page{size:A4;margin:15mm}
-  body{max-width:none!important;margin:0!important;padding:0!important;width:100%}
-  body{grid-template-columns:[full-start] minmax(0,1fr) [main-start side-start] minmax(min-content,12em) [side-end content-start] minmax(28em,1fr) [main-end content-end] minmax(0,1fr) [full-end]!important}
+  @page{size:A4;margin:12mm}
+  body{max-width:none!important;margin:0!important;padding:0!important;width:100%;gap:0}
+  body{grid-template-columns:[full-start] 0 [main-start side-start] minmax(6.5em,7em) [side-end content-start] minmax(0,1fr) [main-end content-end] 0 [full-end]!important}
+  body{column-gap:1em}
+  body>*{min-width:0}
+  h3{font-size:var(--scale2)!important;padding-right:.5em;white-space:normal;line-height:1.25;grid-column:side;align-self:start;min-width:0}
+  section{display:contents}
+  section>.stack,section>.grid-list{grid-column:content;margin-top:.5rem;margin-bottom:1rem;min-width:0}
+  section#work .stack,section#education .stack,section#skills .grid-list{border-top:1px solid var(--color-secondary);padding-top:.85rem;margin-top:.75rem}
+  .masthead{padding:2em 0}
+  .stack{gap:1.6rem}
+  .stack>article{margin-bottom:0;padding-bottom:1.25rem}
+  .stack>article:last-child{padding-bottom:0}
+  .timeline>div:not(:last-child){padding-bottom:.6rem}
+  article>*+*,article header+.timeline{margin-top:.5rem}
+  .grid-list{gap:.75rem 1rem}
+  .grid-list>div{margin:0}
+  .tag-list>li{background:#e5e7eb!important;padding:.2em .5em;font-size:.85em}
 }
 @media screen{html{font-size:15px}body{max-width:52rem;margin:0 auto;padding:2rem 1.5rem;line-height:1.6}}
 
@@ -215,7 +243,7 @@ customElements.define('time-duration', TimeDuration)
                 <header>
                   <h4>Воронежский Государственный Технический Университет</h4>
                   <div class="meta">
-                    <div>Бакалавр in <strong>Компьютерные системы, информационные технологии и программирование</strong></div>
+                    <div><strong>Компьютерные системы, информационные технологии и программирование</strong></div>
                     <div><time datetime="2021">Jan 2021</time> – <time datetime="2025">Jan 2025</time> <time-duration dates="2021|2025"></time-duration></div>
                   </div>
                 </header>
