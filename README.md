@@ -1,16 +1,15 @@
-## Hi there 👋
+<h1 align="center">Hi there, I'm bot4us 👋</h1>
 
-<!--
-**bot4us/bot4us** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+---
 
-Here are some ideas to get you started:
+## 👨‍💻 About Me
+- 🎓 **Class of 2025**, AI technologies @ Voronezh State Technical University of Russia
+- 💻 **Tech Stack:** Java | Python | Golang | Front-end | ...and more!
+- 🏢 **Currently:** Working at [ATOM](https://atom.auto/)
+- 🤝 *Feel free to reach out if you have any relevant opportunities!*
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+---
+
+## 📬 Contact
+- 💡 Have great ideas or feeling uncertain about your direction?  
+- 📱 Add me on Telegram: @bot4e
