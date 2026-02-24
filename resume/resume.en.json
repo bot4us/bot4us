@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
-    "name": "Matvey Alekcheevich Sizov",
-    "label": "Senior Golang Backend Developer",
+    "name": "Matvey Sizov",
+    "label": "Senior Golang Developer",
     "email": "matveisisov@gmail.com",
     "phone": "+7 (993) 659-13-95",
     "url": "https://github.com/bot4us",
