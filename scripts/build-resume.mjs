@@ -73,6 +73,7 @@ const LAYOUT_CSS = `
 /* Skills: visible gray boxes for each tag */
 .tag-list{display:flex;flex-wrap:wrap;gap:.35em .5em}
 .tag-list>li{background:#e5e7eb;color:var(--color-primary);border-radius:.2em;padding:.25em .55em;font-size:.9em;list-style:none}
+section#skills .grid-list h4{font-size:1rem;font-weight:600;line-height:1.2}
 /* Emphasize key info: summary, companies, positions */
 .masthead article p{border-left:3px solid var(--color-accent);padding-left:1em;font-size:1.05em;line-height:1.55;color:var(--color-primary)}
 .meta strong{font-weight:700;color:var(--color-primary)}
@@ -102,6 +103,7 @@ article header h4{font-weight:600}
   .grid-list{gap:.75rem 1rem}
   .grid-list>div{margin:0}
   .tag-list>li{background:#e5e7eb!important;padding:.2em .5em;font-size:.85em}
+  section#skills .grid-list h4{font-size:.95rem}
 }
 @media screen{html{font-size:15px}body{max-width:52rem;margin:0 auto;padding:2rem 1.5rem;line-height:1.6}}
 `;
