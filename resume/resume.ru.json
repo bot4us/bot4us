@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Матвей Сизов",
-    "label": "Senior Developer",
+    "label": "Senior Software Developer",
     "email": "matveisisov@gmail.com",
     "phone": "+7 (993) 659-13-95",
     "url": "https://github.com/bot4us",
@@ -18,7 +18,7 @@
   "work": [
     {
       "name": "ATOM",
-      "position": "Golang Senior Developer",
+      "position": "Senior GoLang Developer",
       "location": "Москва, Россия",
       "startDate": "2023-02",
       "endDate": null,
@@ -31,12 +31,12 @@
         "Перевел часть процессов в асинхронную обработку (Kafka), снизив latency и пиковую нагрузку.",
         "Усилил надежность: защита от недоверенных клиентов, стабилизация интеграций, унификация обработки сбоев.",
         "Участвовал в миграциях PostgreSQL, автоматизировал CI/CD, вел code review и техническую документацию.",
-        "Стек: Golang, Mochi-MQTT, Redis, PostgreSQL, Kafka, mTLS, Grafana, Prometheus, Git."
+        "Стек: GoLang, Mochi-MQTT, Redis, PostgreSQL, Kafka, mTLS, Grafana, Prometheus, Git."
       ]
     },
     {
       "name": "SberTech",
-      "position": "Golang Middle Developer",
+      "position": "Middle GoLang Developer",
       "location": "Москва, Россия",
       "startDate": "2020-01",
       "endDate": "2023-02",
@@ -48,7 +48,7 @@
         "Вернул unit-тестирование в процесс и настроил стабильный запуск тестов в пайплайне.",
         "Повысил надежность за счет идемпотентности и защиты от некорректных повторов/сбоев.",
         "Менторил стажеров («Школа 21»), проводил code review, готовил API/контрактную документацию.",
-        "Стек: Golang, Kubernetes, K8s Controller, Istio, PostgreSQL, Kafka, gRPC, Bitbucket."
+        "Стек: GoLang, Kubernetes, K8s Controller, Istio, PostgreSQL, Kafka, gRPC, Bitbucket."
       ]
     }
   ],
@@ -65,7 +65,7 @@
   "skills": [
     {
       "name": "Backend",
-      "keywords": ["Golang", "Java", "Python", "gRPC", "MQTT", "REST API"]
+      "keywords": ["GoLang", "Java", "Python", "gRPC", "MQTT", "REST API"]
     },
     {
       "name": "Data",

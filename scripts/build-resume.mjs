@@ -12,8 +12,27 @@ const locales = [
   { id: 'en', json: 'resume.en.json', pdf: 'Matvey_Sizov_CV.pdf' },
 ];
 
+const COMPANY_LINKS = [
+  { name: 'ATOM', url: 'https://atom.auto/', domain: 'atom.auto' },
+  { name: 'SberTech', url: 'https://sbertech.ru', domain: 'sbertech.ru' },
+];
+
 function run(cmd, opts = {}) {
   execSync(cmd, { cwd: root, stdio: 'inherit', ...opts });
+}
+
+// Favicon + Open Graph / Twitter Card meta for sharing (assetPrefix: '' for landing, '../' for ru/en)
+function headFaviconAndOg(assetPrefix) {
+  const f = (name) => assetPrefix + name;
+  return `
+  <link rel="icon" type="image/png" href="${f('favicon.png')}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Resume — Matvey Sizov">
+  <meta property="og:description" content="Backend engineer. Resume / CV.">
+  <meta property="og:image" content="${f('og-image.png')}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Resume — Matvey Sizov">
+  <meta name="twitter:image" content="${f('og-image.png')}">`;
 }
 
 // Toolbar: PDF download (pre-generated in pipeline only) + language switcher
@@ -74,6 +93,11 @@ const LAYOUT_CSS = `
 .tag-list{display:flex;flex-wrap:wrap;gap:.35em .5em}
 .tag-list>li{background:#e5e7eb;color:var(--color-primary);border-radius:.2em;padding:.25em .55em;font-size:.9em;list-style:none}
 section#skills .grid-list h4{font-size:1rem;font-weight:600;line-height:1.2}
+/* Company links + icons in Work section (same in HTML and PDF) */
+.company-link{display:inline-flex;align-items:center;gap:.4em;color:inherit;text-decoration:none}
+.company-link:hover{text-decoration:underline}
+.company-icon{width:1.05em;height:1.05em;border-radius:.2em;object-fit:cover;display:inline-block;vertical-align:middle}
+.company-icon-fallback{font-size:.75em;line-height:1;background:#e5e7eb;border:1px solid #cbd5e1;border-radius:.25em;padding:.18em .34em}
 /* Emphasize key info: summary, companies, positions */
 .masthead article p{border-left:3px solid var(--color-accent);padding-left:1em;font-size:1.05em;line-height:1.55;color:var(--color-primary)}
 .meta strong{font-weight:700;color:var(--color-primary)}
@@ -108,8 +132,62 @@ article header h4{font-weight:600}
 @media screen{html{font-size:15px}body{max-width:52rem;margin:0 auto;padding:2rem 1.5rem;line-height:1.6}}
 `;
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+async function fetchIconDataUri(domain) {
+  const candidates = [
+    `https://www.google.com/s2/favicons?domain=${domain}&sz=64`,
+    `https://${domain}/favicon.ico`,
+  ];
+
+  for (const iconUrl of candidates) {
+    try {
+      const response = await fetch(iconUrl);
+      if (!response.ok) continue;
+
+      const mimeType = response.headers.get('content-type')?.split(';')[0] || 'image/png';
+      if (!mimeType.startsWith('image/')) continue;
+
+      const buffer = Buffer.from(await response.arrayBuffer());
+      if (!buffer.length) continue;
+      return `data:${mimeType};base64,${buffer.toString('base64')}`;
+    } catch {
+      // Try next icon source.
+    }
+  }
+
+  return null;
+}
+
+async function resolveCompanyLinks() {
+  const resolved = await Promise.all(
+    COMPANY_LINKS.map(async (company) => {
+      const iconDataUri = await fetchIconDataUri(company.domain);
+      return { ...company, iconDataUri };
+    }),
+  );
+  return resolved;
+}
+
+function patchCompanyLinksAndIcons(html, companies) {
+  let result = html;
+
+  for (const company of companies) {
+    const iconNode = company.iconDataUri
+      ? `<img class="company-icon" src="${company.iconDataUri}" alt="${company.name} logo" loading="lazy" decoding="async">`
+      : `<span class="company-icon-fallback" aria-hidden="true">${company.name[0]}</span>`;
+    const replacement = `<strong><a class="company-link" href="${company.url}" target="_blank" rel="noopener noreferrer">${iconNode}<span>${company.name}</span></a></strong>`;
+    result = result.replace(new RegExp(`<strong>${escapeRegExp(company.name)}</strong>`, 'g'), replacement);
+  }
+
+  return result;
+}
+
 // Render HTML, patch for light theme, generate PDF from same source, inject toolbar
 await (async () => {
+const companyLinks = await resolveCompanyLinks();
 for (const { id, json, pdf } of locales) {
   const input = join(root, 'resume', json);
   const outDir = join(root, 'docs', 'resume', id);
@@ -120,8 +198,10 @@ for (const { id, json, pdf } of locales) {
 
   let html = readFileSync(htmlPath, 'utf8');
   html = patchLightTheme(html);
+  html = patchCompanyLinksAndIcons(html, companyLinks);
   html = html.replace(/Бакалавр in /g, '').replace(/Bachelor in /g, '');
   html = html.replace('</style>', LAYOUT_CSS + '\n</style>');
+  html = html.replace('</head>', headFaviconAndOg('../') + '\n</head>');
   writeFileSync(htmlPath, html);
 
   try {
@@ -152,7 +232,7 @@ const landing = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resume — Matvey Sizov</title>
+  <title>Resume — Matvey Sizov</title>${headFaviconAndOg('')}
   <script>
     (function () {
       var lang = (navigator.languages && navigator.languages[0] || navigator.language || navigator.userLanguage || '').toLowerCase();
